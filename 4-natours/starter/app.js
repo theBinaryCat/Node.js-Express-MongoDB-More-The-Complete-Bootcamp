@@ -12,8 +12,7 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 )
 
-//get all tours
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
     res
     .status(200)
     .json({
@@ -21,9 +20,9 @@ app.get('/api/v1/tours', (req, res) => {
         results: tours.length,
         data: {tours}
     })
-})
-//post a tour
-app.post('/api/v1/tours', (req, res) => {
+}
+
+const createTour = (req, res) => {
     const tourId = tours[tours.length-1].id + 1
     const newTour = Object.assign({id: tourId}, req.body)
     tours.push(newTour)
@@ -37,10 +36,9 @@ app.post('/api/v1/tours', (req, res) => {
         })
     })
 
-})
+}
 
-//get tour
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTout =  (req, res) => {
     id = req.params.id * 1
 
     const tour = tours.find(el => el.id === id)
@@ -56,10 +54,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
         status : "success",
         data: {tour}
     })
-})
+}
 
-//update tour
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
 
     if(tours.length < req.params.id * 1){
         res.status(404).json({
@@ -73,10 +70,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
         data: "tour has been updated"
     })
 
-})
+}
 
-//delete tour
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
 
     if(tours.length < req.params.id * 1){
         res.status(404).json({
@@ -90,7 +86,19 @@ app.delete('/api/v1/tours/:id', (req, res) => {
         data: null
     })
 
-})
+}
+
+//get all tours
+app.get('/api/v1/tours', getAllTours)
+//post a tour
+app.post('/api/v1/tours', createTour)
+//get tour
+app.get('/api/v1/tours/:id', getTout)
+//update tour
+app.patch('/api/v1/tours/:id', updateTour)
+//delete tour
+app.delete('/api/v1/tours/:id', deleteTour)
+
 const port = 3000
 app.listen(port,() =>{
     console.log('listening on port ${port}')
