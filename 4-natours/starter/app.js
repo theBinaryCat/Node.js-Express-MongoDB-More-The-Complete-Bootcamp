@@ -1,7 +1,10 @@
 const express = require('express')
 const fs = require('fs')
+const morgan = require('morgan')
 const app = express()
 
+//get (console.log) info about request 
+app.use(morgan('dev'))
 //parse request bodes with json 
 app.use(express.json())
 
@@ -101,18 +104,21 @@ const deleteTour = (req, res) => {
 
 }
 
+const tourRouter = express.Router()
+
 //routes
-app.
-    route('/api/v1/tours').
+tourRouter.
+    route('/').
     get(getAllTours).
     post(createTour)
 
-app.
-    route('/api/v1/tours/:id').
+tourRouter.
+    route('/:id').
     get(getTout).
     patch(updateTour).
     delete(deleteTour)
 
+app.use('/api/v1/tours', tourRouter)
 
 //start the server
 const port = 3000
