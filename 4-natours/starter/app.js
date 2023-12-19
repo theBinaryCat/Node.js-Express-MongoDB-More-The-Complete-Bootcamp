@@ -12,12 +12,25 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 )
 
+//middleware
+app.use((req, res, next) => {
+    console.log('this is  a middleware')
+    next()
+})
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString()
+    next()
+})
+
+//route handlers
 const getAllTours = (req, res) => {
     res
     .status(200)
     .json({
         status: "success",
         results: tours.length,
+        requestedAt: req.requestTime,
         data: {tours}
     })
 }
@@ -88,7 +101,7 @@ const deleteTour = (req, res) => {
 
 }
 
-//get all tours
+//routes
 app.
     route('/api/v1/tours').
     get(getAllTours).
@@ -101,7 +114,7 @@ app.
     delete(deleteTour)
 
 
-
+//start the server
 const port = 3000
 app.listen(port,() =>{
     console.log('listening on port ${port}')
