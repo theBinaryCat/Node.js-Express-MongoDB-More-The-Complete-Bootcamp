@@ -89,15 +89,18 @@ const deleteTour = (req, res) => {
 }
 
 //get all tours
-app.get('/api/v1/tours', getAllTours)
-//post a tour
-app.post('/api/v1/tours', createTour)
-//get tour
-app.get('/api/v1/tours/:id', getTout)
-//update tour
-app.patch('/api/v1/tours/:id', updateTour)
-//delete tour
-app.delete('/api/v1/tours/:id', deleteTour)
+app.
+    route('/api/v1/tours').
+    get(getAllTours).
+    post(createTour)
+
+app.
+    route('/api/v1/tours/:id').
+    get(getTout).
+    patch(updateTour).
+    delete(deleteTour)
+
+
 
 const port = 3000
 app.listen(port,() =>{
