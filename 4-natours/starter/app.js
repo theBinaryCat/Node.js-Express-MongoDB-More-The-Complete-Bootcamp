@@ -58,6 +58,39 @@ app.get('/api/v1/tours/:id', (req, res) => {
     })
 })
 
+//update tour
+app.patch('/api/v1/tours/:id', (req, res) => {
+
+    if(tours.length < req.params.id * 1){
+        res.status(404).json({
+            status: "failed",
+            message: "Invalid tour Id"
+        })
+    }
+
+    res.json({
+        status: "success",
+        data: "tour has been updated"
+    })
+
+})
+
+//delete tour
+app.delete('/api/v1/tours/:id', (req, res) => {
+
+    if(tours.length < req.params.id * 1){
+        res.status(404).json({
+            status: "failed",
+            message: "Invalid tour Id"
+        })
+    }
+
+    res.status(204).json({
+        status: "success",
+        data: null
+    })
+
+})
 const port = 3000
 app.listen(port,() =>{
     console.log('listening on port ${port}')
