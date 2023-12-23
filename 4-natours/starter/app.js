@@ -7,9 +7,13 @@ const app = express()
 
 //middleware
 //get (console.log) info about request 
-app.use(morgan('dev'))
+if(process.env.NODE_ENV === 'development') {
+        app.use(morgan('dev'))
+}
 //parse request bodies with json 
 app.use(express.json())
+//use static files
+app.use(express.static(`${__dirname}/public`))
 app.use('/api/v1/tours', tourRouter)
 app.use('/api/v1/users',userRouter)
 app.use((req, res, next) => {
